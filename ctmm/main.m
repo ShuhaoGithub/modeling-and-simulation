@@ -3,7 +3,8 @@
 % function body of PlotScatter. Thank you!
 
 clearvars;
-A = textread('0.001.txt');
+fileName = '0.01.txt';
+A = textread(fileName);
 m = A(1);
 N = A(2);
 k = A(3);
@@ -24,7 +25,7 @@ while s ~= m
     for i = 1:m
         expVarMatrix(i,1) = exprnd(N/(lambda(i,1)*currentState(i,2)*currentState(i,1)));
         expVarMatrix(i,2) = exprnd(1/(lambda2*currentState(i,2)));
-        expVarMatrix(i,3) = exprnd(1/(lambda3*currentState(i,2)));
+        expVarMatrix(i,3) = exprnd(1/(lambda3*currentState(i,2)));% As suggested by Piazza, here I take one exponential with a higher rate instead of sampling a large number of identical exponentials. 
         expVarMatrix(i,4) = exprnd(1/(lambda3*currentState(i,3)));
         expVarMatrix(i,5) = exprnd(1/(lambda3*currentState(i,1)));
     end
@@ -70,6 +71,8 @@ for i = 1:m
 end
 fprintf(text);
 
-%% Plot
+%% Plot and write
 PlotScatter(outputMatrix)
 
+fileID = fopen(strcat(fileName(1:end-4),'result.txt'),'w');
+fprintf(fileID,text);
